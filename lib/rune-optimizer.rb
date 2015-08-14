@@ -72,7 +72,7 @@ class RuneBook
   def to_s
     string = "Value: #{value_of_book.to_f}\n\n"
     @champion_roles_pages.each do |page|
-      string += "#{page.first}\n"
+      string += "#{page.first.first} #{page.first.last}\n"
       string += "#{page.last}\n\n"
     end
     string
