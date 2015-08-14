@@ -1,6 +1,5 @@
 require 'open-uri'
 require 'nokogiri'
-require 'json'
 
 class RunePage
 
@@ -52,7 +51,7 @@ class RuneBook
   end
 end
 
-def run_optimizer(scrape = false)
+def run_optimizer(scrape, page_number)
 
   champion_roles = Hash.new
 
@@ -65,25 +64,31 @@ def run_optimizer(scrape = false)
 
   champion_role_list = [%w(garen top), %w(ryze top), %w(poppy top), %w(annie middle), %w(veigar middle), %w(nunu jungle), %w(masteryi jungle), %w(warwick jungle), %w(amumu jungle), %w(kayle jungle), %w(fiddlesticks jungle), %w(poppy jungle), %w(soraka support), %w(alistar support), %w(annie support), %w(tristana adc), %w(sivir adc), %w(ashe adc)]
 
-  champion_role_list.each do |champion_role|
-    champion_roles[champion_role] = Hash.new(0)
+  if (scrape)
+    champion_role_list.each do |champion_role|
+      champion_roles[champion_role] = Hash.new(0)
 
-    scraped_site = Nokogiri::parse(open("http://www.leagueofgraphs.com/champions/runes/#{champion_role.first}/#{champion_role.last}"))
+      scraped_site = Nokogiri::parse(open("http://www.leagueofgraphs.com/champions/runes/#{champion_role.first}/#{champion_role.last}"))
 
-    scraped_site.css('#mainContent .txt,.percentage').each_slice(7) do |element|
-      champion_roles[champion_role][element[0].text.lstrip.chomp(' ')] = element[4].text.chomp('%').to_r
+      scraped_site.css('#mainContent .txt,.percentage').each_slice(7) do |element|
+        champion_roles[champion_role][element[0].text.lstrip.chomp(' ')] = element[4].text.chomp('%').to_r
+      end
+
+      puts "Scraped site for #{champion_role}"
     end
 
-    puts "Scraped site for #{champion_role}"
-  end
-
-  File.open('champion_role_list.json', 'w') do |file|
-    file.write(JSON.dump(champion_roles))
+    File.open('champion_role_list.marshal', 'w') do |file|
+      file.write(Marshal.dump(champion_roles))
+    end
+  else
+    File.open('champion_role_list.marshal', 'r') do |file|
+      champion_roles = Marshal.load(file.read)
+    end
   end
 
   rune_combinations = Hash.new
 
-  rune_page_number = 2
+  rune_page_number = page_number
 
   rune_pages = Array.new
 
