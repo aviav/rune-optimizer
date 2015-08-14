@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
+require 'json'
 
 
 champion_roles = Hash.new
@@ -23,6 +24,10 @@ champion_role_list.each do |champion_role|
   end
 
   puts "Scraped site for #{champion_role}"
+end
+
+File.open('champion_role_list.json', 'w') do |file|
+  file.write(JSON.dump(champion_roles))
 end
 
 rune_combinations = Hash.new
