@@ -12,4 +12,5 @@ group :development do
   gem 'jeweler'
   gem 'simplecov'
   gem 'nokogiri'
+  gem 'thor'
 end
