@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
+require 'ruby-progressbar'
 require_relative 'rune-page.rb'
 require_relative 'rune-book.rb'
 
