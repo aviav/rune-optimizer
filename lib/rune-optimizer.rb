@@ -150,11 +150,17 @@ def run_optimizer(scrape, rune_page_number, free)
 
     count = 0
 
+    progress_options = {
+      title: 'Trying rune books',
+      total: rune_pages.combination(rune_page_number).size,
+      format: '%t |%E | %B | %a'
+    }
+
+    progress = ProgressBar.create(progress_options)
+
     rune_pages.combination(rune_page_number).each do |rune_book|
+      progress.increment
       count += 1
-      if count % 10000 == 0
-        puts "#{count} of #{rune_pages.combination(rune_page_number).size} rune books created"
-      end
       rune_book = RuneBook.new(rune_book, champion_role_list, rune_combinations)
       if rune_book.value_of_book.nonzero?
         rune_books << rune_book
