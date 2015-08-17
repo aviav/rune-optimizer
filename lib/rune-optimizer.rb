@@ -103,6 +103,23 @@ def run_optimizer(scrape, page_number, free)
     champion_roles = load_champion_roles
   end
 
+  if free
+    book = available_rune_book
+
+    rune_combinations = Hash.new
+
+    book.pages.each do |page|
+      rune_combinations[page] = Hash.new
+    end
+
+    champion_role_list.each do |champion_role|
+
+      book.pages.each do |page|
+        rune_combinations[page][champion_role] = compute_combination_score(page, champion_role, champion_roles)
+      end
+    end
+    puts RuneBook.new(book.pages, champion_role_list, rune_combinations)
+  else
 
     runes_available = available_runes
 
