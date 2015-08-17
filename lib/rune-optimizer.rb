@@ -23,7 +23,7 @@ def available_champions_roles
 
   # champion_role_list = [%w(garen top), %w(ryze top), %w(poppy top), %w(annie middle), %w(veigar middle), %w(nunu jungle), %w(masteryi jungle), %w(warwick jungle), %w(amumu jungle), %w(kayle jungle), %w(fiddlesticks jungle), %w(poppy jungle), %w(soraka support), %w(alistar support), %w(annie support), %w(tristana adc), %w(sivir adc), %w(ashe adc)]
 
-  champion_role_list = [%w(garen top), %w(ryze top), %w(poppy top), %w(annie middle), %w(veigar middle), %w(nunu jungle), %w(masteryi jungle), %w(warwick jungle), %w(amumu jungle), %w(kayle jungle), %w(fiddlesticks jungle), %w(poppy jungle), %w(soraka support), %w(alistar support), %w(annie support), %w(tristana adc), %w(sivir adc), %w(ashe adc), %w(hecarim top), %w(jarvaniv top), %w(nidalee jungle), %w(jarvaniv jungle), %w(reksai jungle), %w(hecarim jungle), %w(lux middle), %w(lulu middle), %w(draven adc), %w(lulu support)]
+  champion_role_list = [%w(garen top), %w(ryze top), %w(poppy top), %w(annie middle), %w(veigar middle), %w(nunu jungle), %w(masteryi jungle), %w(warwick jungle), %w(amumu jungle), %w(kayle jungle), %w(fiddlesticks jungle), %w(poppy jungle), %w(soraka support), %w(alistar support), %w(annie support), %w(tristana adc), %w(sivir adc), %w(ashe adc), %w(gnar top), %w(leesin jungle), %w(shyvana jungle), %w(nocturne jungle), %w(leblanc middle), %w(xerath middle), %w(anivia middle), %w(kalista adc), %w(leona support)]
 end
 
 def available_rune_book(rune_combinations = nil)
