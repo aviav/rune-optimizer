@@ -2,7 +2,7 @@ class RuneBook
 
   attr_reader :pages, :value_of_book, :champion_roles_pages
 
-  def initialize(pages, champion_role_list, rune_combinations)
+  def initialize(pages, champion_role_list, rune_combinations = nil)
     @pages = pages
     @champion_roles_pages = Hash.new
     @value_of_book = value(champion_role_list, rune_combinations)
@@ -11,15 +11,19 @@ class RuneBook
   def value(champion_role_list, rune_combinations)
     book_value = 0
     champion_role_list.each do |champion_role|
-      page_values = Hash.new
+      page_values = Hash.new(0)
       @pages.each do |page|
-        page_values[page.to_s] = rune_combinations[page.quint][page.mark][page.seal][page.glyph][champion_role]
+        if(rune_combinations)
+          page_values[page.to_s] = rune_combinations[page][champion_role]
+        end
       end
       max_element = page_values.max_by{ |k,v| v }
-      book_value += max_element.last
-      @champion_roles_pages[champion_role] = max_element.first
+      if(max_element)
+        book_value += max_element.last
+        @champion_roles_pages[champion_role] = [max_element.first, max_element.last]
+      end
     end
-    book_value/champion_role_list.size/47.4
+    book_value/champion_role_list.size
   end
 
   def to_s
