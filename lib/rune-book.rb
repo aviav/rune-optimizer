@@ -19,8 +19,13 @@ class RuneBook
       end
       max_element = page_values.max_by{ |k,v| v }
       if(max_element)
-        book_value += max_element.last
-        @champion_roles_pages[champion_role] = [max_element.first, max_element.last]
+        if(max_element.last == 0)
+          book_value = 0
+          break
+        else
+          book_value += max_element.last
+          @champion_roles_pages[champion_role] = [max_element.first, max_element.last]
+        end
       end
     end
     book_value/champion_role_list.size
@@ -31,8 +36,8 @@ class RuneBook
     @champion_roles_pages.each do |page|
       string += "#{page.first.first} #{page.first.last}\n"
       string += "#{page.last.first}\n"
-      string += "Page value for champion: #{page.last.last}\n\n"
+      string += "Page value for champion: #{page.last.last.to_f.round(1)}\n\n"
     end
-    string += "Book value: #{value_of_book}"
+    string += "Book value: #{value_of_book.to_f.round(1)}"
   end
 end

@@ -82,14 +82,17 @@ end
 
 def compute_combination_score(page, champion_role, champion_roles)
   combination_score = 0
-  combination_score += QUINT_SET_WEIGHT.to_r * champion_roles[champion_role][page.quint]
-  combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.mark]
-  combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.seal]
-  combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.glyph]
-  combination_score/(QUINT_SET_WEIGHT + 3 * SMALL_RUNE_SET_WEIGHT)
+  if(champion_roles[champion_role][page.quint].nonzero? and champion_roles[champion_role][page.mark].nonzero? and champion_roles[champion_role][page.seal].nonzero? and champion_roles[champion_role][page.glyph].nonzero?)
+    combination_score += QUINT_SET_WEIGHT.to_r * champion_roles[champion_role][page.quint]
+    combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.mark]
+    combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.seal]
+    combination_score += SMALL_RUNE_SET_WEIGHT.to_r * champion_roles[champion_role][page.glyph]
+    return combination_score/(QUINT_SET_WEIGHT + 3 * SMALL_RUNE_SET_WEIGHT)
+  end
+  combination_score
 end
 
-def run_optimizer(scrape, page_number, free)
+def run_optimizer(scrape, rune_page_number, free)
 
   champion_roles = Hash.new
 
@@ -125,8 +128,6 @@ def run_optimizer(scrape, page_number, free)
 
     rune_combinations = Hash.new
 
-    rune_page_number = page_number
-
     rune_pages = Array.new
 
     runes_available['quints'].each do |quint|
@@ -154,7 +155,10 @@ def run_optimizer(scrape, page_number, free)
       if count % 2500 == 0
         puts "#{count} of #{rune_pages.combination(rune_page_number).size} rune books created"
       end
-      rune_books << RuneBook.new(rune_book, champion_role_list, rune_combinations)
+      rune_book = RuneBook.new(rune_book, champion_role_list, rune_combinations)
+      if rune_book.value_of_book.nonzero?
+        rune_books << rune_book
+      end
       if count % 250000 == 0
         best_book = rune_books.max_by{ |book| book.value_of_book }
         rune_book_champions << best_book
