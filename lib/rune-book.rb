@@ -26,8 +26,9 @@ class RuneBook
     string = ''
     @champion_roles_pages.each do |page|
       string += "#{page.first.first} #{page.first.last}\n"
-      string += "#{page.last}\n\n"
+      string += "#{page.last.first}\n"
+      string += "Page value for champion: #{page.last.last}\n\n"
     end
-    string += "Value: #{value_of_book.to_f}"
+    string += "Book value: #{value_of_book}"
   end
 end
