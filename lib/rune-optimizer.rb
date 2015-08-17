@@ -152,7 +152,7 @@ def run_optimizer(scrape, rune_page_number, free)
 
     rune_pages.combination(rune_page_number).each do |rune_book|
       count += 1
-      if count % 2500 == 0
+      if count % 10000 == 0
         puts "#{count} of #{rune_pages.combination(rune_page_number).size} rune books created"
       end
       rune_book = RuneBook.new(rune_book, champion_role_list, rune_combinations)
