@@ -11,6 +11,8 @@ group :development do
   gem 'bundler'
   gem 'jeweler'
   gem 'simplecov'
-  gem 'nokogiri'
-  gem 'thor'
 end
+
+gem 'nokogiri'
+gem 'thor'
+gem 'ruby-progressbar'

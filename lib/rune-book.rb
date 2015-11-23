@@ -14,18 +14,13 @@ class RuneBook
       page_values = Hash.new(0)
       @pages.each do |page|
         if(rune_combinations)
-          page_values[page.to_s] = rune_combinations[page][champion_role]
+          page_values[page] = rune_combinations[page][champion_role]
         end
       end
       max_element = page_values.max_by{ |k,v| v }
       if(max_element)
-        if(max_element.last == 0)
-          book_value = 0
-          break
-        else
-          book_value += max_element.last
-          @champion_roles_pages[champion_role] = [max_element.first, max_element.last]
-        end
+        book_value += max_element.last
+        @champion_roles_pages[champion_role] = [max_element.first, max_element.last]
       end
     end
     book_value/champion_role_list.size
@@ -33,11 +28,27 @@ class RuneBook
 
   def to_s
     string = ''
-    @champion_roles_pages.each do |page|
-      string += "#{page.first.first} #{page.first.last}\n"
-      string += "#{page.last.first}\n"
-      string += "Page value for champion: #{page.last.last.to_f.round(1)}\n\n"
+    pages_champion_roles = Hash.new
+
+    @pages.each do |page|
+      pages_champion_roles[page] = Array.new
     end
-    string += "Book value: #{value_of_book.to_f.round(1)}"
+
+    @champion_roles_pages.each do |page|
+      pages_champion_roles[page.last.first] << [page.first.first, page.first.last, page.last.last]
+    end
+
+    pages_champion_roles.each_with_index do |page, index|
+      string += "Rune Page #{index + 1}\n\n"
+      string += "#{page.first}\n\n"
+
+      page.last.each do |champion_role|
+        string += "#{champion_role.last.to_f.round(1)}% win rate: #{champion_role.first} #{champion_role[1]}\n"
+      end
+
+      string += "\n"
+    end
+
+    string += "Book value: #{value_of_book.to_f.round(3)}"
   end
 end

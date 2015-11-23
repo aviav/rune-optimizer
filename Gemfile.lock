@@ -60,6 +60,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-progressbar (1.7.5)
     simplecov (0.10.0)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -77,6 +78,7 @@ DEPENDENCIES
   nokogiri
   rdoc
   rspec
+  ruby-progressbar
   simplecov
   thor
 
